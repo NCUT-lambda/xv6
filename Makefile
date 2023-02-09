@@ -150,6 +150,7 @@ clean:
 	mkfs/mkfs .gdbinit \
         $U/usys.S \
 	$(UPROGS)
+	cd ./rs_src/xv6/ && cargo clean
 
 # try to generate a unique GDB port
 GDBPORT = $(shell expr `id -u` % 5000 + 25000)
@@ -187,7 +188,7 @@ rs-release:
 RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/release/xv6
 RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
 
-rs-qemu: rs-release fs.img
+rs-qemu: $K/kernel rs-release fs.img
 	$(QEMU) $(RS_QEMUOPTS)
 
 debug-sym: $K/kernel rs-release
