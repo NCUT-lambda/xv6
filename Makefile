@@ -111,7 +111,7 @@ mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
 ifdef IN_NIX_SHELL
 	nix-shell -p clang --run "clang ${MKFS_CMD}"
 else
-	gcc "${MKFS_CMD}"
+	gcc ${MKFS_CMD}
 endif
 
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
@@ -190,7 +190,7 @@ RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS)
 rs-qemu: rs-release fs.img
 	$(QEMU) $(RS_QEMUOPTS)
 
-debug-sym:
+debug-sym: $K/kernel rs-release
 	$(OBJDUMP) -t $K/kernel    | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > debug_c.sym
 	$(OBJDUMP) -t $(RS_KERNEL) | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > debug_rs.sym
 	./scripts/gen_debug_sym.py
