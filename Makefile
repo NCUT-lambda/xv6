@@ -183,15 +183,18 @@ fmt:
 	fd -e nix -x alejandra
 	cd ./rs_src/xv6/ && cargo +nightly fmt
 
-rs-release:
-	cd ./rs_src/xv6/ && cargo build --release
-RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/release/xv6
+rs-os:
+	cd ./rs_src/xv6/ && cargo build
+RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/debug/xv6
 RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
+RS_QEMUOPTS += -global virtio-mmio.force-legacy=false
+RS_QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
+RS_QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
-rs-qemu: $K/kernel rs-release fs.img
+rs-qemu: $K/kernel rs-os fs.img
 	$(QEMU) $(RS_QEMUOPTS)
 
-debug-sym: $K/kernel rs-release
+debug-sym: $K/kernel rs-os
 	$(OBJDUMP) -t $K/kernel    | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > debug_c.sym
 	$(OBJDUMP) -t $(RS_KERNEL) | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > debug_rs.sym
 	./scripts/gen_debug_sym.py
