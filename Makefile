@@ -181,3 +181,11 @@ fmt:
 	fd -e h   -x clang-format -i
 	fd -e nix -x alejandra
 	cd ./rs_src/xv6/ && cargo +nightly fmt
+
+rs-release:
+	cd ./rs_src/xv6/ && cargo build --release
+RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/release/xv6
+RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
+
+rs-qemu: rs-release fs.img
+	$(QEMU) $(RS_QEMUOPTS)
