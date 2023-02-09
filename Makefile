@@ -106,8 +106,13 @@ $U/_forktest: $U/forktest.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_forktest $U/forktest.o $U/ulib.o $U/usys.o
 	$(OBJDUMP) -S $U/_forktest > $U/forktest.asm
 
+MKFS_CMD := -Werror -Wall -I. -o mkfs/mkfs mkfs/mkfs.c
 mkfs/mkfs: mkfs/mkfs.c $K/fs.h $K/param.h
-	gcc -Werror -Wall -I. -o mkfs/mkfs mkfs/mkfs.c
+ifdef IN_NIX_SHELL
+	nix-shell -p clang --run "clang ${MKFS_CMD}"
+else
+	gcc "${MKFS_CMD}"
+endif
 
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
 # that disk image changes after first build are persistent until clean.  More
