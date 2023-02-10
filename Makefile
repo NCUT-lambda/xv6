@@ -186,7 +186,7 @@ fmt:
 .PHONY: rs-os
 rs-os: $(OBJS) $K/kernel.ld $U/initcode
 	cd ./rs_src/xv6/ && cargo build
-RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/debug/xv6
+RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/debug/xv6-kernel
 RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
 RS_QEMUOPTS += -global virtio-mmio.force-legacy=false
 RS_QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
