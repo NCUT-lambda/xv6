@@ -4,6 +4,4 @@ name = "xv6-kernel"
 version = "0.1.0"
 
 [dependencies]
-xv6-common = { path = "../xv6-common" }
-
-buddy_system_allocator = "0.9.0"
+xv6-panic = { path = "../xv6-panic" }
