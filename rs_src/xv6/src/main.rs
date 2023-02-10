@@ -3,7 +3,7 @@
 
 use core::panic::PanicInfo;
 
-#[allow(unused_imports)]
+#[allow(unused_imports, clippy::single_component_path_imports)]
 use xv6;
 
 #[panic_handler]

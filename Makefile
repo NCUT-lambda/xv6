@@ -183,7 +183,8 @@ fmt:
 	fd -e nix -x alejandra
 	cd ./rs_src/xv6/ && cargo +nightly fmt
 
-rs-os:
+.PHONY: rs-os
+rs-os: $(OBJS) $K/kernel.ld $U/initcode
 	cd ./rs_src/xv6/ && cargo build
 RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/debug/xv6
 RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
@@ -191,7 +192,7 @@ RS_QEMUOPTS += -global virtio-mmio.force-legacy=false
 RS_QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
 RS_QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
-rs-qemu: $K/kernel rs-os fs.img
+rs-qemu: rs-os fs.img
 	$(QEMU) $(RS_QEMUOPTS)
 
 debug-sym: $K/kernel rs-os
