@@ -1,6 +1,2 @@
-[package]
-edition = "2021"
-name = "xv6"
-version = "0.1.0"
-
-[dependencies]
+[workspace]
+members = ["./xv6-kernel/", "./xv6-alloc/"]
