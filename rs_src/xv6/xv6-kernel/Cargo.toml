@@ -1,8 +1,5 @@
-cargo-features = ["per-package-target"]
-
 [package]
 edition = "2021"
-forced-target = "./targets/kernel/riscv64gc-unknown-none-elf.json"
 name = "xv6-kernel"
 version = "0.1.0"
 
