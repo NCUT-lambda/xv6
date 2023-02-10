@@ -1,2 +1,2 @@
 [workspace]
-members = ["./xv6-kernel/", "./xv6-alloc/"]
+members = ["./xv6-common/", "./xv6-kernel/"]

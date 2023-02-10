@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "xv6-alloc"
+name = "xv6-common"
 version = "0.1.0"
 
 [dependencies]
