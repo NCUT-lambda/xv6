@@ -8,7 +8,6 @@ extern "C" {
 }
 
 #[no_mangle]
-
 pub unsafe extern "C" fn main() -> ffi::c_void {
     c_main()
 }

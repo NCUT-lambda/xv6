@@ -2934,6 +2934,7 @@ int drivetests(int quick, int continuous, char *justone) {
 }
 
 int main(int argc, char *argv[]) {
+  init_global_allocator();
   int continuous = 0;
   int quick = 0;
   char *justone = 0;

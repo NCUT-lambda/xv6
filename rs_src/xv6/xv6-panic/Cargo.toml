@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "xv6"
+name = "xv6-panic"
 version = "0.1.0"
 
 [dependencies]

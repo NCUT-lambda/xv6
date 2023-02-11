@@ -1,12 +1,7 @@
 #![no_std]
 #![cfg_attr(not(test), no_main)]
 
-use core::panic::PanicInfo;
+extern crate xv6_panic;
 
 #[allow(unused_imports, clippy::single_component_path_imports)]
-use xv6;
-
-#[panic_handler]
-fn panic(_: &PanicInfo) -> ! {
-    loop {}
-}
+use xv6_kernel;

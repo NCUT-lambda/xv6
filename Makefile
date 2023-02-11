@@ -88,6 +88,7 @@ tags: $(OBJS) _init
 	etags *.S *.c
 
 ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o
+ULIB += ./rs_src/xv6/xv6-ulib/target/riscv64gc-unknown-none-elf/release/libxv6_ulib.a
 
 _%: %.o $(ULIB)
 	$(LD) $(LDFLAGS) -T $U/user.ld -o $@ $^
@@ -150,7 +151,7 @@ clean:
 	mkfs/mkfs .gdbinit \
         $U/usys.S \
 	$(UPROGS)
-	cd ./rs_src/xv6/ && cargo clean
+	cd ./rs_src/xv6/ && make clean
 
 # try to generate a unique GDB port
 GDBPORT = $(shell expr `id -u` % 5000 + 25000)
@@ -181,12 +182,12 @@ fmt:
 	fd -e c   -x clang-format -i
 	fd -e h   -x clang-format -i
 	fd -e nix -x alejandra
-	cd ./rs_src/xv6/ && cargo +nightly fmt
+	cd ./rs_src/xv6/ && make fmt
 
 .PHONY: rs-os
 rs-os: $(OBJS) $K/kernel.ld $U/initcode
-	cd ./rs_src/xv6/ && cargo build
-RS_KERNEL := ./rs_src/xv6/target/riscv64gc-unknown-none-elf/debug/xv6
+	cd ./rs_src/xv6/ && make all
+RS_KERNEL := ./rs_src/xv6/xv6-kernel/target/riscv64gc-unknown-none-elf/release/xv6-kernel
 RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
 RS_QEMUOPTS += -global virtio-mmio.force-legacy=false
 RS_QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
