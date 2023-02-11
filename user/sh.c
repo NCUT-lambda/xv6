@@ -139,6 +139,7 @@ int getcmd(char *buf, int nbuf) {
 }
 
 int main(void) {
+  init_global_allocator();
   static char buf[100];
   int fd;
 
