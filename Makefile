@@ -1,6 +1,8 @@
 K=kernel
 U=user
 
+BOOTLOADER = ./external/rustsbi-qemu.bin
+
 OBJS = \
   $K/entry.o \
   $K/start.o \
@@ -163,7 +165,7 @@ ifndef CPUS
 CPUS := 3
 endif
 
-QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 128M -smp $(CPUS) -nographic
+QEMUOPTS = -machine virt -bios $(BOOTLOADER) -kernel $K/kernel -m 128M -smp $(CPUS) -nographic
 QEMUOPTS += -global virtio-mmio.force-legacy=false
 QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
 QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -185,10 +187,12 @@ fmt:
 	cd ./rs_src/xv6/ && make fmt
 
 .PHONY: rs-os
+RS_KERNEL := ./rs_src/xv6/xv6-kernel/target/riscv64gc-unknown-none-elf/release/xv6-kernel
 rs-os: $(OBJS) $K/kernel.ld $U/initcode
 	cd ./rs_src/xv6/ && make all
-RS_KERNEL := ./rs_src/xv6/xv6-kernel/target/riscv64gc-unknown-none-elf/release/xv6-kernel
-RS_QEMUOPTS = -machine virt -bios none -kernel $(RS_KERNEL) -m 128M -smp $(CPUS) -nographic
+	rust-objcopy --binary-architecture=riscv64 $(RS_KERNEL) --strip-all -O binary $(RS_KERNEL).bin
+RS_QEMUOPTS = -machine virt -bios $(BOOTLOADER) -device loader,file=$(RS_KERNEL).bin,addr=0x80200000
+RS_QEMUOPTS += -m 128M -smp $(CPUS) -nographic
 RS_QEMUOPTS += -global virtio-mmio.force-legacy=false
 RS_QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
 RS_QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
