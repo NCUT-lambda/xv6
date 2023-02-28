@@ -4,7 +4,7 @@
 use core::alloc::{GlobalAlloc, Layout};
 use core::{ffi, mem};
 
-extern crate xv6_panic;
+extern crate xv6_user_panic;
 
 use buddy_system_allocator::LockedHeap;
 
