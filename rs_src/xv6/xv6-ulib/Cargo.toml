@@ -4,7 +4,7 @@ name = "xv6-ulib"
 version = "0.1.0"
 
 [dependencies]
-xv6-panic = { path = "../xv6-panic" }
+xv6-user-panic = { path = "../xv6-user-panic" }
 
 buddy_system_allocator = "0.9.0"
 

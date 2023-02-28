@@ -4,4 +4,4 @@ name = "xv6-kernel"
 version = "0.1.0"
 
 [dependencies]
-xv6-panic = { path = "../xv6-panic" }
+xv6-kernel-panic = { path = "../xv6-kernel-panic" }
