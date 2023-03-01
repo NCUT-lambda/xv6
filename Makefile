@@ -200,13 +200,9 @@ RS_QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 rs-qemu: rs-os fs.img
 	$(QEMU) $(RS_QEMUOPTS)
 
-RS_QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
-	then echo "-gdb tcp::$(GDBPORT)"; \
-	else echo "-s -p $(GDBPORT)"; fi)
-
 rs-qemu-gdb: rs-os .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
-	$(QEMU) $(RS_QEMUOPTS) -S $(RS_QEMUGDB)
+	$(QEMU) $(RS_QEMUOPTS) -S $(QEMUGDB)
 
 debug-sym: $K/kernel rs-os
 	$(OBJDUMP) -t $K/kernel    | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > debug_c.sym
