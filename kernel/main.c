@@ -20,6 +20,7 @@ void c_main() {
     procinit();         // process table
     trapinit();         // trap vectors
     trapinithart();     // install kernel trap vector
+    printf("trap init hart\n");
     plicinit();         // set up interrupt controller
     plicinithart();     // ask PLIC for device interrupts
     binit();            // buffer cache
