@@ -1,5 +1,4 @@
 #![no_std]
-#![no_main]
 #![allow(clippy::missing_safety_doc)]
 
 use core::ffi;
