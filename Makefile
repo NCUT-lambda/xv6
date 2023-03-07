@@ -211,3 +211,9 @@ debug-sym: $K/kernel rs-os
 
 show-debug-sym: debug-sym
 	diff -u --color debug_c.sym debug_rs.sym
+
+conn-gdb:
+	(gdb \
+		-ex 'file $(RS_KERNEL)' \
+		-ex 'set arch riscv:rv64' \
+		-ex 'target remote localhost:${GDBPORT}')
