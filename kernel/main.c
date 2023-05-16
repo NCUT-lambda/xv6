@@ -8,7 +8,8 @@ volatile static int started = 0;
 
 // start() jumps here in supervisor mode on all CPUs.
 void c_main() {
-  if (cpuid() == 0) {
+  int this_cpuid = cpuid();
+  if (this_cpuid == 0) {
     consoleinit();
     printfinit();
     printf("\n");
@@ -52,5 +53,5 @@ void c_main() {
     plicinithart(); // ask PLIC for device interrupts
   }
 
-  scheduler();
+  scheduler(this_cpuid);
 }

@@ -406,7 +406,8 @@ int wait(uint64 addr) {
 //  - swtch to start running that process.
 //  - eventually that process transfers control
 //    via swtch back to the scheduler.
-void scheduler(void) {
+void scheduler(int this_cpuid) {
+  printf("[OK] start scheduler for cpu %d\n", this_cpuid);
   struct proc *p;
   struct cpu *c = mycpu();
 
